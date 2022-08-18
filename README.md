@@ -72,10 +72,10 @@ reg query "HKCU\Control Panel\Desktop" /s
 If you want to remove the artifacts of registry, you can use powershell or normal dos command below:
 
 ```powershell
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut'
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive'
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure'
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE'
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut'
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive'
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure'
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE'
 ```
 
 ```batch
