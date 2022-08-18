@@ -18,6 +18,8 @@ Brief description: A simple walkthrough on Windows Screensaver Hijacking for per
     - [Table of Contents](#table-of-contents)
     - [Introduction](#introduction)
     - [Simple Demo](#simple-demo)
+        - [ScreensaverHijack with command PWNED](#screensaverhijack-with-command-pwned)
+        - [ScreensaverHijack with sliver implants](#screensaverhijack-with-sliver-implants)
     - [Additional Information](#additional-information)
 
 <!-- /TOC -->
