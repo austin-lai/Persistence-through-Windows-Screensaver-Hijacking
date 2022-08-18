@@ -30,10 +30,10 @@ Screensavers are Portable Executable (PE) files with a `.scr` extension by defau
 
 The following screensaver settings are stored in the Registry (`HKCU\Control Panel\Desktop\`) and could be manipulated to achieve persistence:
 
-· `SCRNSAVE.exe` - set to malicious PE path.
-· `ScreenSaveActive` - set to '1' to enable the screensaver.
-· `ScreenSaverIsSecure` - set to '0' to not require a password to unlock.
-· `ScreenSaveTimeout` - sets user inactivity timeout before screensaver is executed.
+- `SCRNSAVE.exe` - set to malicious PE path.
+- `ScreenSaveActive` - set to '1' to enable the screensaver.
+- `ScreenSaverIsSecure` - set to '0' to not require a password to unlock.
+- `ScreenSaveTimeout` - sets user inactivity timeout before screensaver is executed.
 
 This is low level persistence technique as the registry keys stored under “HKCU“ which does not require system privilege. Adversaries can use screensaver settings to maintain persistence by setting the screensaver to run malware after a certain time-frame of user inactivity.
 
