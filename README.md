@@ -81,10 +81,10 @@ Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE' -F
 ```
 
 ```batch
-reg delete Registry_key_path /v ScreenSaveTimeOut /f
-reg delete Registry_key_path /v ScreenSaveActive /f
-reg delete Registry_key_path /v ScreenSaverIsSecure /f
-reg delete Registry_key_path /v SCRNSAVE.EXE /f
+reg delete "HKCU\Control Panel\Desktop" /v ScreenSaveTimeOut /f
+reg delete "HKCU\Control Panel\Desktop" /v ScreenSaveActive /f
+reg delete "HKCU\Control Panel\Desktop" /v ScreenSaverIsSecure /f
+reg delete "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /f
 ```
 
 Adversaries may use tools such as Sliver C2 implants/beacon, reverse shell from msfvenom or even simple socat/powershell to callback to attacker machines. Simply added line below to download the malicious executable and change the path of “SCRNSAVE.EXE“ to malicious executable.
