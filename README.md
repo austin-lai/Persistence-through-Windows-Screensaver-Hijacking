@@ -268,7 +268,7 @@ cl scrnsave-reg-austin-v3.cpp /Fe:scrnsave-reg-austin-v3.exe
 
 #### ScreensaverHijack using CPP for registry changer and download sliver implants
 
-![]()
+![ScreensaverHijack-using-CPP-for-registry-changer-and-download-sliver-implants.gif](https://github.com/austin-lai/Persistence-through-Windows-Screensaver-Hijacking/blob/master/ScreensaverHijack-using-CPP-for-registry-changer-and-download-sliver-implants.gif)
 
 ## Additional Information
 
